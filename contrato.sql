@@ -21,7 +21,7 @@ USE `contrato` ;
 -- Table `contrato`.`d_Fecha`
 -- -----------------------------------------------------
 CREATE TABLE `d_Fecha` (
-  `ID_Fecha` INT NOT NULL,
+  `ID_Fecha` INT NOT NULL AUTO_INCREMENT,
   `Fecha` DATE NULL,
   `ID_Anno` INT NULL,
   `ID_Mes` INT NULL,
@@ -37,7 +37,7 @@ ENGINE = InnoDB;
 -- Table `contrato`.`d_Objeto`
 -- -----------------------------------------------------
 CREATE TABLE `d_Objeto` (
-  `ID_Objeto` INT NOT NULL,
+  `ID_Objeto` INT NOT NULL AUTO_INCREMENT,
   `Nombre_Objeto` VARCHAR(80) NULL,
   PRIMARY KEY (`ID_Objeto`))
 ENGINE = InnoDB;
@@ -47,7 +47,7 @@ ENGINE = InnoDB;
 -- Table `contrato`.`d_EntidadContratante`
 -- -----------------------------------------------------
   CREATE TABLE `d_EntidadContratante` (
-    `ID_EntidadContratante` INT NOT NULL,
+    `ID_EntidadContratante` INT NOT NULL AUTO_INCREMENT,
     `Nombre_EntidadContratante` VARCHAR(80) NULL,
     PRIMARY KEY (`ID_EntidadContratante`))
   ENGINE = InnoDB;
@@ -57,7 +57,7 @@ ENGINE = InnoDB;
 -- Table `contrato`.`d_Contratado`
 -- -----------------------------------------------------
 CREATE TABLE `d_Contratado` (
-  `ID_Contratado` INT NOT NULL,
+  `ID_Contratado` INT NOT NULL AUTO_INCREMENT,
   `Nombre_Contratado` VARCHAR(100) NULL,
   `TipoContrato` VARCHAR(45) NULL,
   PRIMARY KEY (`ID_Contratado`))
