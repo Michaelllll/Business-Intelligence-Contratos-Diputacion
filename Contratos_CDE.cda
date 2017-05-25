@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CDADescriptor>
+   <DataSources>
+      <Connection id="ConsultaF3" type="sql.jdbc">
+         <Driver>com.mysql.jdbc.Driver</Driver>
+         <Pass/>
+         <Url>jdbc:mysql://localhost/contrato</Url>
+         <User>root</User>
+      </Connection>
+      <Connection id="ConsultaF2C3" type="sql.jdbc">
+         <Driver>com.mysql.jdbc.Driver</Driver>
+         <Pass/>
+         <Url>jdbc:mysql://localhost/contrato</Url>
+         <User>root</User>
+      </Connection>
+      <Connection id="ConsultaF4C3" type="sql.jdbc">
+         <Driver>com.mysql.jdbc.Driver</Driver>
+         <Pass/>
+         <Url>jdbc:mysql://localhost/contrato</Url>
+         <User>root</User>
+      </Connection>
+      <Connection id="ConsultaF4C1" type="sql.jdbc">
+         <Driver>com.mysql.jdbc.Driver</Driver>
+         <Pass/>
+         <Url>jdbc:mysql://localhost/contrato</Url>
+         <User>root</User>
+      </Connection>
+      <Connection id="ConsultaF2C1" type="sql.jdbc">
+         <Driver>com.mysql.jdbc.Driver</Driver>
+         <Pass/>
+         <Url>jdbc:mysql://localhost/contrato</Url>
+         <User>root</User>
+      </Connection>
+      <Connection id="ConsultaF1C3" type="sql.jdbc">
+         <Driver>com.mysql.jdbc.Driver</Driver>
+         <Pass/>
+         <Url>jdbc:mysql://localhost/contrato</Url>
+         <User>root</User>
+      </Connection>
+      <Connection id="ConsultaF1C1" type="sql.jdbc">
+         <Driver>com.mysql.jdbc.Driver</Driver>
+         <Pass/>
+         <Url>jdbc:mysql://localhost/contrato</Url>
+         <User>root</User>
+      </Connection>
+   </DataSources>
+   <DataAccess access="public" connection="ConsultaF3" id="ConsultaF3" type="sql">
+      <Name>ConsultaF3</Name>
+      <Cache duration="3600" enabled="true"/>
+      <Columns/>
+      <Parameters>
+         <Parameter default="anno" name="anno" type="Integer"/>
+      </Parameters>
+      <Query><![CDATA[SELECT entidad.Nombre_EntidadContratante "Entidad Contratante", TRUNCATE(SUM(f.Importe_Licitacion),2) "Total de presupuesto en euros"
+FROM d_entidadcontratante entidad, f_contratos_menores f, d_fecha fecha
+WHERE entidad.ID_EntidadContratante = f.d_EntidadContratante_ID_EntidadContratante AND fecha.ID_Fecha = f.d_Fecha_ID_Fecha AND fecha.ID_Anno = ${anno}
+GROUP BY entidad.Nombre_EntidadContratante;]]></Query>
+   </DataAccess>
+   <DataAccess access="public" connection="ConsultaF2C3" id="ConsultaF2C3" type="sql">
+      <Name>ConsultaF2C3</Name>
+      <Cache duration="3600" enabled="true"/>
+      <Columns/>
+      <Parameters>
+         <Parameter default="fech" name="fech" type="String"/>
+      </Parameters>
+      <Query><![CDATA[SELECT objeto.TipoContrato "Tipo de contrato", COUNT(objeto.TipoContrato) "Cantidad de contratos", entidad.Nombre_EntidadContratante "Entidad contratante" FROM d_objeto objeto, d_entidadcontratante entidad, d_fecha fecha, f_contratos_menores f
+WHERE objeto.TipoContrato IS NOT NULL AND objeto.ID_Objeto = f.d_Objeto_ID_Objeto AND entidad.ID_EntidadContratante = f.d_EntidadContratante_ID_EntidadContratante AND fecha.ID_Fecha = f.d_Fecha_ID_Fecha AND fecha.ID_Anno = ${fech}
+GROUP BY objeto.TipoContrato
+ORDER BY entidad.Nombre_EntidadContratante;]]></Query>
+   </DataAccess>
+   <DataAccess access="public" connection="ConsultaF4C3" id="ConsultaF4C3" type="sql">
+      <Name>ConsultaF4C3</Name>
+      <Cache duration="3600" enabled="true"/>
+      <Columns/>
+      <Parameters>
+         <Parameter default="an" name="an" type="String"/>
+      </Parameters>
+      <Query><![CDATA[SELECT entidad.Nombre_EntidadContratante "Entidad Contratante", SUM(f.Num_Licitadores) "Total de licitadores"
+FROM d_entidadcontratante entidad, d_fecha fecha, f_contratos_menores f 
+WHERE entidad.ID_EntidadContratante = f.d_EntidadContratante_ID_EntidadContratante AND fecha.ID_Anno = ${an} AND fecha.ID_Fecha = f.d_Fecha_ID_Fecha 
+GROUP BY entidad.Nombre_EntidadContratante;]]></Query>
+   </DataAccess>
+   <DataAccess access="public" connection="ConsultaF4C1" id="ConsultaF4C1" type="sql">
+      <Name>ConsultaF4C1</Name>
+      <Cache duration="3600" enabled="true"/>
+      <Columns/>
+      <Parameters>
+         <Parameter default="ent" name="ent" type="String"/>
+         <Parameter default="ann" name="ann" type="String"/>
+      </Parameters>
+      <Query><![CDATA[SELECT objeto.TipoContrato "Tipo de contrato", TRUNCATE(SUM(f.Importe_Adjudicacion),2) "Gasto total/contrato en euros"
+FROM d_objeto objeto, d_fecha fecha, f_contratos_menores f, d_entidadcontratante entidad
+WHERE objeto.TipoContrato IS NOT NULL AND objeto.ID_Objeto = f.d_Objeto_ID_Objeto AND fecha.ID_Fecha = f.d_Fecha_ID_Fecha AND entidad.ID_EntidadContratante = f.d_EntidadContratante_ID_EntidadContratante AND entidad.Nombre_EntidadContratante = ${ent} AND fecha.ID_Anno = ${ann}
+GROUP BY objeto.TipoContrato;]]></Query>
+   </DataAccess>
+   <DataAccess access="public" connection="ConsultaF2C1" id="ConsultaF2C1" type="sql">
+      <Name>ConsultaF2C1</Name>
+      <Cache duration="3600" enabled="true"/>
+      <Columns/>
+      <Parameters>
+         <Parameter default="dip" name="dip" type="String"/>
+      </Parameters>
+      <Query><![CDATA[SELECT fecha.ID_Anno, TRUNCATE(SUM(f.Importe_Adjudicacion),2) "Total gastado en euros"
+FROM d_entidadcontratante entidad, f_contratos_menores f, d_fecha fecha
+WHERE entidad.ID_EntidadContratante = f.d_EntidadContratante_ID_EntidadContratante AND fecha.ID_Fecha = f.d_Fecha_ID_Fecha AND entidad.Nombre_EntidadContratante = ${dip}
+GROUP BY fecha.ID_Anno;]]></Query>
+   </DataAccess>
+   <DataAccess access="public" connection="ConsultaF1C3" id="ConsultaF1C3" type="sql">
+      <Name>ConsultaF1C3</Name>
+      <Cache duration="3600" enabled="true"/>
+      <Columns/>
+      <Parameters/>
+      <Query><![CDATA[SELECT DISTINCT fecha.ID_Anno
+FROM d_fecha fecha;]]></Query>
+   </DataAccess>
+   <DataAccess access="public" connection="ConsultaF1C1" id="ConsultaF1C1" type="sql">
+      <Name>ConsultaF1C1</Name>
+      <Cache duration="3600" enabled="true"/>
+      <Columns/>
+      <Parameters/>
+      <Query><![CDATA[SELECT entidad.Nombre_EntidadContratante
+FROM d_entidadcontratante entidad;]]></Query>
+   </DataAccess>
+</CDADescriptor>
